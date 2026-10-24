@@ -1,1 +1,0 @@
-import{i as e}from"./index-BB8bpOKy.js";import{t}from"./keys-DgzpbM_O.js";var n=(...t)=>Promise.all(t.map(t=>e.invalidateQueries({queryKey:t}))),r=()=>n(t.products.all,t.stats.all),i=()=>n(t.users.all,t.stats.all),a=()=>n(t.comments.all,t.products.all,t.stats.all),o=()=>n(t.messages.all);export{i,o as n,r,a as t};
