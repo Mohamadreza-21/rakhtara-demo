@@ -4,7 +4,7 @@ import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-	base: process.env.VITE_BASE_PATH || "/rakhtara-demo/",
+	base: process.env.VITE_BASE_PATH || "/",
 	plugins: [react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
 	build: {
 		rollupOptions: {
