@@ -7,7 +7,9 @@
 		"dev": "vite",
 		"build": "vite build && node scripts/spa-fallback.mjs",
 		"lint": "eslint .",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"predeploy": "npm run build",
+		"deploy": "npx --yes gh-pages@6.3.0 -d dist"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.9.2",

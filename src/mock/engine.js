@@ -5,7 +5,15 @@ import { withBase } from "../utils/assets";
 let dbPromise = null;
 
 function prefixAssets(value) {
-	if (typeof value === "string") return value.startsWith("/images/") ? withBase(value) : value;
+	if (typeof value === "string") {
+		// Only rewrite local public image paths. Keep external, data, and blob URLs intact.
+		const isRemote = /^(?:https?:|data:|blob:|\/\/)/i.test(value);
+		const isLocalImage = !isRemote && (
+			value.startsWith("images/") ||
+			(value.startsWith("/") && value.includes("/images/"))
+		);
+		return isLocalImage ? withBase(value) : value;
+	}
 	if (Array.isArray(value)) return value.map(prefixAssets);
 	if (value && typeof value === "object") {
 		return Object.fromEntries(Object.entries(value).map(([key, inner]) => [key, prefixAssets(inner)]));
@@ -16,7 +24,14 @@ function prefixAssets(value) {
 function loadDb() {
 	dbPromise ??= (async () => {
 		const stored = readStoredDb();
-		if (stored) return stored;
+		if (stored) {
+			// Normalize stored records too, so stale absolute paths from a previous
+			// deployment don't keep pointing to the wrong repository root.
+			const db = prefixAssets(stored);
+			writeStoredDb(db);
+			return db;
+		}
+
 		const { default: seed } = await import("./db.json");
 		const db = prefixAssets(structuredClone(seed));
 		writeStoredDb(db);
@@ -44,7 +59,8 @@ export async function handleRequest({ method, path, params, body }) {
 	if (!Array.isArray(table)) {
 		if (method === "get") return respond(200, table);
 		if (method === "patch" || method === "put") {
-			db[resource] = method === "put" ? body : { ...table, ...body };
+			const normalizedBody = prefixAssets(body);
+			db[resource] = method === "put" ? normalizedBody : { ...table, ...normalizedBody };
 			writeStoredDb(db);
 			return respond(200, db[resource]);
 		}
@@ -54,7 +70,8 @@ export async function handleRequest({ method, path, params, body }) {
 	if (id === undefined) {
 		if (method === "get") return respond(200, runQuery(table, params));
 		if (method === "post") {
-			const item = { ...body, id: body?.id ?? createId() };
+			const normalizedBody = prefixAssets(body);
+			const item = { ...normalizedBody, id: normalizedBody?.id ?? createId() };
 			table.push(item);
 			writeStoredDb(db);
 			return respond(201, item);
@@ -68,7 +85,10 @@ export async function handleRequest({ method, path, params, body }) {
 	if (method === "get") return respond(200, table[index]);
 
 	if (method === "patch" || method === "put") {
-		table[index] = method === "put" ? { ...body, id: table[index].id } : { ...table[index], ...body, id: table[index].id };
+		const normalizedBody = prefixAssets(body);
+		table[index] = method === "put"
+			? { ...normalizedBody, id: table[index].id }
+			: { ...table[index], ...normalizedBody, id: table[index].id };
 		writeStoredDb(db);
 		return respond(200, table[index]);
 	}
