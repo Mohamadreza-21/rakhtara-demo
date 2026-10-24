@@ -1,4 +1,4 @@
-export const SHOW_DEMO_ACCOUNTS = import.meta.env.VITE_SHOW_DEMO_ACCOUNTS !== "false";
+export const SHOW_DEMO_ACCOUNTS = "true";
 
 export const DEMO_ACCOUNTS = [
 	{
