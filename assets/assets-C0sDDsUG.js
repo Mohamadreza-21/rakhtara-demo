@@ -1,0 +1,1 @@
+import{t as e}from"./createLucideIcon-GvF9FSRC.js";var t={name:`chevron-left`,size:24,node:[[`path`,{d:`m15 18-6-6 6-6`,key:`1wnfg3`}]]};t.node;var n=e(t),r=e=>`/rakhtara-demo${String(e).replace(/^\//,``)}`;export{n,r as t};
