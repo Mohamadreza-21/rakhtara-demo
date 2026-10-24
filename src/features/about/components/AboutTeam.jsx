@@ -1,0 +1,41 @@
+import { Users, Sparkles, MapPin } from "lucide-react";
+
+export default function AboutTeam() {
+	return (
+		<section className="max-w-7xl mx-auto px-6 py-20">
+			<div className="grid md:grid-cols-3 gap-8">
+				<div className="md:col-span-1 bg-camel/15 rounded-3xl p-8 flex flex-col justify-center">
+					<Users className="text-forest mb-4" size={28} />
+					<h3 className="font-extrabold text-forest text-xl mb-3">
+						تیم رخت‌آرا
+					</h3>
+					<p className="text-sm leading-7 text-ink/60">
+						ترکیبی از طراحان، استادکاران خیاطی و تیم پشتیبانی که همه با یک
+						هدف کار می‌کنند: رضایت شما از خرید.
+					</p>
+				</div>
+				<div className="md:col-span-2 bg-white border border-ink/10 rounded-3xl p-8 flex flex-col justify-center gap-6">
+					<div className="flex items-start gap-4">
+						<span className="shrink-0 w-11 h-11 rounded-full bg-camel/20 flex items-center justify-center text-forest">
+							<Sparkles size={20} />
+						</span>
+						<p className="leading-8 text-ink/70">
+							ما معتقدیم لباس و اکسسوری خوب باید هم زیبا باشد و هم برای
+							سال‌ها همراه شما بماند؛ به همین دلیل کیفیت را فدای سرعت تولید
+							نمی‌کنیم.
+						</p>
+					</div>
+					<div className="flex items-start gap-4">
+						<span className="shrink-0 w-11 h-11 rounded-full bg-camel/20 flex items-center justify-center text-forest">
+							<MapPin size={20} />
+						</span>
+						<p className="leading-8 text-ink/70">
+							دفتر و کارگاه اصلی رخت‌آرا در تهران است، اما محصولات ما همین
+							امروز به بیش از سی شهر ایران ارسال می‌شود.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
+}

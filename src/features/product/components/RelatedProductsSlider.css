@@ -1,0 +1,20 @@
+.related-swiper {
+	padding: 6px 4px 44px;
+}
+
+.related-swiper .swiper-slide > div {
+	height: 100%;
+}
+
+.related-swiper .swiper-pagination-bullet {
+	background: var(--color-forest);
+	opacity: 0.25;
+}
+
+.related-swiper .swiper-pagination-bullet-active {
+	background: var(--color-camel);
+	opacity: 1;
+	width: 22px;
+	border-radius: 999px;
+	transition: width 0.25s ease;
+}
